@@ -1,0 +1,29 @@
+services:
+    mariadb:
+        image: mariadb
+        restart: always
+        environment:
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=base
+            - MYSQL_TCP_PORT=3314
+            - TZ=America/Mazatlan
+        ports:
+            - 3314:3314
+
+    laravel-base:
+        image: php:82
+        depends_on:
+            - mariadb
+        links:
+            - mariadb
+        environment:
+            - DB_HOST=mariadb
+            - DB_USERNAME=root
+            - DB_PASSWORD=password
+            - DB_DATABASE=base
+        working_dir: /app
+        ports:
+            - 8014:8014
+        volumes:
+            - ./:/app:delegated
+        command: [ "php","artisan","serve", "--host", "0.0.0.0", "--port", "8014" ]
