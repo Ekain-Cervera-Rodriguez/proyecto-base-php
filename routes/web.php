@@ -10,3 +10,6 @@ Route::get('ping',function(){
 
 Route::get('usuarios/roles', [UsersController::class, 'roles'])->name('usuarios.roles');
 Route::resource('usuarios', UsersController::class, ['except' => ['edit', 'create']]);
+
+
+Route::get('usuarios/{id}', [UsersController::class, 'roles'])->name('usuarios.roles');

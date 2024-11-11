@@ -40,7 +40,7 @@ class PermissionsCommand extends Command
      */
     public function handle()
     {
-        $roles = Role::select('name')->orderBy('id')->get();
+        $roles = Role::query()->select('name')->orderBy('id')->get();
 
         $procesos = array('Salir');
 

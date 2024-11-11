@@ -90,7 +90,7 @@ class UsersController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->unprocessable('Error', ['Error al guardar al usuario.']);
+            return response()->unprocessable('Error', [$e->getMessage()]);
         }
     }
 

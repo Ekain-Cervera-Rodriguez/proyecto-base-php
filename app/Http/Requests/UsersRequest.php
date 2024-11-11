@@ -31,7 +31,7 @@ class UsersRequest extends FormRequest
             ];
         } else {
             return [
-                'email' => 'nullable|string|max:191|email:rfc,dns|unique:users,email',
+                'email' => 'string|max:191|email:rfc,dns|unique:users,email',
                 'password' => 'nullable|string|min:3|max:30',
                 'nombre' => 'required|string|max:191|regex:/^[\pL\s\-]+$/u',
                 'apellido_paterno' => 'required|string|max:191|regex:/^[\pL\s\-]+$/u',
