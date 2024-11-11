@@ -17,22 +17,41 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         $orderBy = $request->input('sortBy', 'users.id');
-        $order = $request->input('order', 'desc');
+        $order = $request->input('order', 'desc'); //asc
         $deleted = $request->input('deleted', 0);
 
         $campos = [
             'users.id as id',
             DB::raw("CONCAT_WS(' ', nombre, apellido_paterno, apellido_materno) as nombre"),
-            'telefono',
-            'email',
+            'telefono as celular',
+            'email as correo',
             'roles.name as role',
-            'users.deleted_at'
+            'users.deleted_at as borrar'
         ];
 
         $queryBuilder = $deleted ? User::onlyTrashed() : User::withoutTrashed();
 
+        $queryBuilder = $queryBuilder->select($campos)
+            ->join("role_users", "users.id", "=", "role_users.user_id")
+            ->join("roles", "roles.id", "=", "role_users.role_id")
+            ->orderBy($orderBy, $order);
 
-        $queryBuilder->select($campos)
+            if ($query = $request->input('query', false)){
+                $queryBuilder->where(function ($q) use($query){
+                    $q->where('users.nombre', 'like', '%'.$query.'%')
+                    ->orWhere('users.email', 'like', '%'.$query.'%');
+                });
+            }
+            if ($perPage = $request->input('perPage', false)){
+                $data = $queryBuilder->paginate($perPage);
+
+            }else{
+                $data = $queryBuilder->get();
+            }
+
+        return response()->success($data);
+
+        /*$queryBuilder->select($campos)
             ->join('role_users', 'role_users.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_users.role_id')
             ->orderBy($orderBy, $order);
@@ -51,7 +70,7 @@ class UsersController extends Controller
         }
 
 
-        return response()->success(['data' => $data]);
+        return response()->success(['data' => $data]);*/
     }
 
     public function store(UsersRequest $request)
