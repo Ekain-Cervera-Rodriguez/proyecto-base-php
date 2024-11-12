@@ -21,7 +21,7 @@ class UsersRequest extends FormRequest
             $id = $params['usuario'];
 
             return [
-                'email' => 'string|nullable|email:rfc,dns|unique:users,email,' . $id . ',id',
+                'email' => 'string|required|email:rfc,dns|unique:users,email,' . $id . ',id',
                 'nombre' => 'string|max:191|regex:/^[\pL\s\-]+$/u',
                 'password' => 'string|nullable|min:3|nullable',
                 'apellido_paterno' => 'string|max:191|regex:/^[\pL\s\-]+$/u',

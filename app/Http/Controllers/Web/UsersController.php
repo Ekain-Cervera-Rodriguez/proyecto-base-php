@@ -39,7 +39,7 @@ class UsersController extends Controller
             if ($query = $request->input('query', false)){
                 $queryBuilder->where(function ($q) use($query){
                     $q->where('users.nombre', 'like', '%'.$query.'%')
-                    ->orWhere('users.email', 'like', '%'.$query.'%');
+                        ->orWhere('users.email', 'like', '%'.$query.'%');
                 });
             }
             if ($perPage = $request->input('perPage', false)){

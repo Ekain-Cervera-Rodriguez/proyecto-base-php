@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\RolesController;
 use App\Http\Controllers\Web\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +11,4 @@ Route::get('ping',function(){
 
 Route::get('usuarios/roles', [UsersController::class, 'roles'])->name('usuarios.roles');
 Route::resource('usuarios', UsersController::class, ['except' => ['edit', 'create']]);
-
-
-Route::get('usuarios/{id}', [UsersController::class, 'roles'])->name('usuarios.roles');
+Route::resource('roles', RolesController::class, ['except' => ['edit', 'create']]);

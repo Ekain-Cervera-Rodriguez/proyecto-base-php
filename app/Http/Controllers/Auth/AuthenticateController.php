@@ -55,6 +55,3 @@ class AuthenticateController extends Controller
 
 
 }
-//get show {1},delete,post y put de upload
-
-//controlador roles
