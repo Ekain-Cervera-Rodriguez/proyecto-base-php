@@ -14,17 +14,12 @@ class RolesRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            'name' => 'string|required',
-            'slug' => 'string|required',
-            'permissions' => 'string|required',
+            'name' => 'string',
+            'slug' => 'string',
+            'permissions' => 'string',
         ];
     }
 }

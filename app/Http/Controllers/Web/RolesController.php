@@ -58,8 +58,7 @@ class RolesController extends Controller
         DB::beginTransaction();
         try {
 
-            $role = Sentinel::registerAndActivate();
-
+            $role = Sentinel::check($data);
             $rol = Role::query()->find($role->id);
             $rol->update([
                 'name' => $data['name'],
@@ -67,11 +66,11 @@ class RolesController extends Controller
                 "permissions" => $data['permissions'],
             ]);
 
-            $user = User::query()->find($data['user_id']);
+            $user = Role::query()->find($data['role_id']);
 
             RoleUser::query()->create([
-                'user_id' => $user->id,
-                'role_id' => $role->id
+                'role_id' => $role->id,
+                'user_id' => $user->id
             ]);
 
 
@@ -116,7 +115,7 @@ class RolesController extends Controller
 
     public function destroy($id)
     {
-        if ($id == Auth::id()) {
+        if ($id == Auth::user()) {
             return response()->unprocessable('Error', ['No es posible eliminar el rol.']);
         }
 
